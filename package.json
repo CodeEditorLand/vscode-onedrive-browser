@@ -46,7 +46,7 @@
 		"@typescript-eslint/parser": "6.11.0",
 		"@vscode/test-web": "0.0.48",
 		"assert": "2.1.0",
-		"eslint": "8.53.0",
+		"eslint": "8.54.0",
 		"mocha": "10.2.0",
 		"process": "0.11.10",
 		"ts-loader": "9.5.1",
