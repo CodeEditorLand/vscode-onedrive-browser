@@ -34,10 +34,6 @@
 		"onCommand:onedrive-browser.openOneDrive",
 		"onFileSystem:onedrive"
 	],
-	"prettier": {
-		"printWidth": 100,
-		"singleQuote": true
-	},
 	"devDependencies": {
 		"@types/mocha": "10.0.4",
 		"@types/vscode": "1.84.1",
