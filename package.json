@@ -2,19 +2,35 @@
   "name": "onedrive-browser",
   "displayName": "OneDrive Browser",
   "version": "0.0.1",
+  "private": "false",
   "description": "Browse and edit files from OneDrive in VS Code",
+  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
+  "bugs": {
+    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Nikola Hristov",
+    "email": "nikola@nikolahristov.tech",
+    "url": "https://nikolahristov.tech"
+  },
   "publisher": "playform",
+  "type": "module",
   "browser": "./dist/web/extension.js",
   "scripts": {
     "compile-web": "webpack",
     "lint": "eslint src --ext ts",
     "package-web": "webpack --mode production --devtool hidden-source-map",
+    "prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
     "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
     "pretest": "yarn run compile-web",
     "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
     "vscode:prepublish": "yarn run package-web",
-    "watch-web": "webpack --watch",
-    "prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'"
+    "watch-web": "webpack --watch"
   },
   "contributes": {
     "commands": [
@@ -44,28 +60,12 @@
     "process": "0.11.10",
     "ts-loader": "9.5.1",
     "typescript": "5.3.2",
+    "typescript-esbuild": "0.3.1",
     "webpack": "5.89.0",
-    "webpack-cli": "5.1.4",
-    "typescript-esbuild": "0.3.1"
+    "webpack-cli": "5.1.4"
   },
-  "preview": true,
-  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
-  "bugs": {
-    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
-  },
-  "license": "MIT",
-  "type": "module",
-  "private": "false",
   "publishConfig": {
     "access": "public"
   },
-  "author": {
-    "name": "Nikola Hristov",
-    "email": "nikola@nikolahristov.tech",
-    "url": "https://nikolahristov.tech"
-  }
+  "preview": true
 }
