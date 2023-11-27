@@ -1,71 +1,71 @@
 {
-  "name": "onedrive-browser",
-  "displayName": "OneDrive Browser",
-  "version": "0.0.1",
-  "private": "false",
-  "description": "Browse and edit files from OneDrive in VS Code",
-  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
-  "bugs": {
-    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
-  },
-  "license": "MIT",
-  "author": {
-    "name": "Nikola Hristov",
-    "email": "nikola@nikolahristov.tech",
-    "url": "https://nikolahristov.tech"
-  },
-  "publisher": "playform",
-  "type": "module",
-  "browser": "./dist/web/extension.js",
-  "scripts": {
-    "compile-web": "webpack",
-    "lint": "eslint src --ext ts",
-    "package-web": "webpack --mode production --devtool hidden-source-map",
-    "prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-    "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
-    "pretest": "yarn run compile-web",
-    "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
-    "vscode:prepublish": "yarn run package-web",
-    "watch-web": "webpack --watch"
-  },
-  "contributes": {
-    "commands": [
-      {
-        "command": "onedrive-browser.openOneDrive",
-        "title": "Open OneDrive Folder"
-      }
-    ],
-    "webOpener": {
-      "scheme": "onedrive",
-      "import": "webOpener.js"
-    }
-  },
-  "activationEvents": [
-    "onCommand:onedrive-browser.openOneDrive",
-    "onFileSystem:onedrive"
-  ],
-  "devDependencies": {
-    "@types/mocha": "10.0.6",
-    "@types/vscode": "1.84.2",
-    "@types/webpack-env": "1.18.4",
-    "@typescript-eslint/eslint-plugin": "6.12.0",
-    "@typescript-eslint/parser": "6.12.0",
-    "@vscode/test-web": "0.0.48",
-    "assert": "2.1.0",
-    "mocha": "10.2.0",
-    "process": "0.11.10",
-    "ts-loader": "9.5.1",
-    "typescript": "5.3.2",
-    "typescript-esbuild": "0.3.1",
-    "webpack": "5.89.0",
-    "webpack-cli": "5.1.4"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "preview": true
+	"name": "onedrive-browser",
+	"displayName": "OneDrive Browser",
+	"version": "0.0.1",
+	"private": "false",
+	"description": "Browse and edit files from OneDrive in VS Code",
+	"homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
+	"bugs": {
+		"url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "Nikola Hristov",
+		"email": "nikola@nikolahristov.tech",
+		"url": "https://nikolahristov.tech"
+	},
+	"publisher": "playform",
+	"type": "module",
+	"browser": "./dist/web/extension.js",
+	"scripts": {
+		"compile-web": "webpack",
+		"lint": "eslint src --ext ts",
+		"package-web": "webpack --mode production --devtool hidden-source-map",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
+		"pretest": "yarn run compile-web",
+		"test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
+		"vscode:prepublish": "yarn run package-web",
+		"watch-web": "webpack --watch"
+	},
+	"contributes": {
+		"commands": [
+			{
+				"command": "onedrive-browser.openOneDrive",
+				"title": "Open OneDrive Folder"
+			}
+		],
+		"webOpener": {
+			"scheme": "onedrive",
+			"import": "webOpener.js"
+		}
+	},
+	"activationEvents": [
+		"onCommand:onedrive-browser.openOneDrive",
+		"onFileSystem:onedrive"
+	],
+	"devDependencies": {
+		"@types/mocha": "10.0.6",
+		"@types/vscode": "1.84.2",
+		"@types/webpack-env": "1.18.4",
+		"@typescript-eslint/eslint-plugin": "6.12.0",
+		"@typescript-eslint/parser": "6.12.0",
+		"@vscode/test-web": "0.0.48",
+		"assert": "2.1.0",
+		"mocha": "10.2.0",
+		"process": "0.11.10",
+		"ts-loader": "9.5.1",
+		"typescript": "5.3.2",
+		"typescript-esbuild": "0.3.1",
+		"webpack": "5.89.0",
+		"webpack-cli": "5.1.4"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"preview": true
 }
