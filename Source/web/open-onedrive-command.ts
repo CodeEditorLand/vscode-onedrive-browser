@@ -1,7 +1,7 @@
-import { ClientProvider } from "./client-provider";
 import * as vscode from "vscode";
-import { Children, MyDrives, OneDriveClient } from "./onedrive-types";
+import { ClientProvider } from "./client-provider";
 import { OneDriveFileSystemProvider } from "./onedrive-filesystem-provider";
+import { Children, MyDrives, OneDriveClient } from "./onedrive-types";
 
 export async function openOneDrive(clientProvider: ClientProvider) {
 	const client = await clientProvider.request();
@@ -20,7 +20,7 @@ export async function openOneDrive(clientProvider: ClientProvider) {
 			vscode.Uri.from({
 				scheme: OneDriveFileSystemProvider.scheme,
 				authority: drive.driveId,
-			})
+			}),
 		);
 	}
 
@@ -33,8 +33,8 @@ export async function openOneDrive(clientProvider: ClientProvider) {
 				? {
 						itemId: context[context.length - 1].id,
 						prefix: context.map((c) => c.name).join("/"),
-					}
-				: undefined
+				  }
+				: undefined,
 		);
 
 		if (!pick) {
@@ -57,15 +57,15 @@ export async function openOneDrive(clientProvider: ClientProvider) {
 
 			return vscode.commands.executeCommand(
 				pick.item.folder ? "vscode.openFolder" : "vscode.open",
-				uri
+				uri,
 			);
 		}
 	}
 }
 
-const enum ItemAction {
-	browse,
-	open,
+enum ItemAction {
+	browse = 0,
+	open = 1,
 }
 
 const dateFormat = new Intl.DateTimeFormat(undefined, {
@@ -82,7 +82,7 @@ type FolderPickItem = vscode.QuickPickItem & {
 function pickFolder(
 	client: OneDriveClient,
 	driveId: string,
-	context?: { itemId: string; prefix: string }
+	context?: { itemId: string; prefix: string },
 ): Promise<
 	{ item: Children.DriveItem | "parent"; action: ItemAction } | undefined
 > {
@@ -107,7 +107,7 @@ function pickFolder(
 						sortText: "\0${child.name}",
 						label: `$(folder) ${item.name}`,
 						description: `${numberFormat.format(
-							item.folder.childCount
+							item.folder.childCount,
 						)} items • ${desc}`,
 						buttons: [
 							{
@@ -115,18 +115,18 @@ function pickFolder(
 								tooltip: "Open Drive",
 							},
 						],
-					}
+				  }
 				: {
 						item,
 						sortText: item.name,
 						label: item.name,
 						description: desc,
-					};
+				  };
 		});
 
 		if (context) {
 			items.push({
-				item: "parent" as "parent",
+				item: "parent" as const,
 				sortText: "\0\0",
 				label: "↩ Back to parent folder",
 			});
@@ -149,7 +149,7 @@ function pickFolder(
 			resolve(
 				selected
 					? { item: selected.item, action: ItemAction.browse }
-					: undefined
+					: undefined,
 			);
 		});
 		qp.onDidHide(() => {
@@ -159,7 +159,7 @@ function pickFolder(
 }
 
 function pickDriveId(
-	client: OneDriveClient
+	client: OneDriveClient,
 ): Promise<{ driveId: string; action: ItemAction } | undefined> {
 	const qp = vscode.window.createQuickPick<
 		vscode.QuickPickItem & { driveId: string }
@@ -194,7 +194,7 @@ function pickDriveId(
 		qp.onDidAccept(() => {
 			const driveId = qp.selectedItems[0]?.driveId;
 			resolve(
-				driveId ? { driveId, action: ItemAction.browse } : undefined
+				driveId ? { driveId, action: ItemAction.browse } : undefined,
 			);
 		});
 		qp.onDidHide(() => {
