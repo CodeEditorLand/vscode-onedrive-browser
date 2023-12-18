@@ -17,7 +17,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 	/** @inheritdoc */
 	watch(
 		uri: vscode.Uri,
-		options: { recursive: boolean; excludes: string[] },
+		options: { recursive: boolean; excludes: string[] }
 	): vscode.Disposable {
 		// we just watch the root, once, here. VS Code and extensions can request
 		// watchers for child directories, but usually someone will always request
@@ -33,7 +33,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 				for await (const changes of client.watch(
 					driveId,
 					10_000,
-					cts.token,
+					cts.token
 				)) {
 					this.changeEmitter.fire(
 						changes.map((change) => ({
@@ -43,7 +43,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 								authority: driveId,
 								path: `/${change.path}`,
 							}),
-						})),
+						}))
 					);
 				}
 			});
@@ -88,7 +88,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 
 	/** @inheritdoc */
 	public async readDirectory(
-		uri: vscode.Uri,
+		uri: vscode.Uri
 	): Promise<[string, vscode.FileType][]> {
 		const { driveId } = this.parseUri(uri);
 		const client = await this.client.demandForFs();
@@ -134,7 +134,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 	/** @inheritdoc */
 	public async writeFile(
 		uri: vscode.Uri,
-		content: Uint8Array,
+		content: Uint8Array
 	): Promise<void> {
 		const { driveId, path } = this.parseUri(uri);
 		const client = await this.client.demandForFs();
@@ -144,7 +144,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 	/** @inheritdoc */
 	public async delete(
 		uri: vscode.Uri,
-		options: { recursive: boolean },
+		options: { recursive: boolean }
 	): Promise<void> {
 		const { driveId, path } = this.parseUri(uri);
 		const client = await this.client.demandForFs();

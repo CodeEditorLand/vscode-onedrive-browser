@@ -9,10 +9,10 @@ export class ResponseError extends Error {
 
 	constructor(
 		public readonly response: Response,
-		public readonly body: string,
+		public readonly body: string
 	) {
 		super(
-			`${response.status} ${response.statusText} from ${response.url}: ${body}`,
+			`${response.status} ${response.statusText} from ${response.url}: ${body}`
 		);
 	}
 }
@@ -30,14 +30,14 @@ export class OneDriveClient {
 
 	public getFileMetadata(
 		driveId: string,
-		filePath: string,
+		filePath: string
 	): Promise<Children.DriveItem> {
 		return this.fetchJson(`drives/${driveId}/root:/${filePath}`);
 	}
 
 	public getNestedChildren(
 		driveId: string,
-		itemId: string,
+		itemId: string
 	): Promise<Children.Response> {
 		return this.fetchJson(`drives/${driveId}/items/${itemId}/children`);
 	}
@@ -45,7 +45,7 @@ export class OneDriveClient {
 	public createFolder(
 		driveId: string,
 		parentId: string,
-		folderName: string,
+		folderName: string
 	): Promise<Children.DriveItem> {
 		return this.fetchJson(`drives/${driveId}/items/${parentId}/children`, {
 			method: "POST",
@@ -63,7 +63,7 @@ export class OneDriveClient {
 			`drives/${driveId}/items/root:/${encodeURI(filePath)}:/content`,
 			{
 				redirect: "follow",
-			},
+			}
 		);
 
 		return res.arrayBuffer();
@@ -75,7 +75,7 @@ export class OneDriveClient {
 				`drives/${driveId}/items/root:/${encodeURI(path)}`,
 				{
 					method: "DELETE",
-				},
+				}
 			);
 		} catch (e) {
 			if (!ResponseError.is(e, 404)) {
@@ -88,7 +88,7 @@ export class OneDriveClient {
 		driveId: string,
 		itemId: string,
 		newParentId: string,
-		newName: string,
+		newName: string
 	) {
 		return this.fetchJson(`drives/${driveId}/items/${itemId}`, {
 			method: "PATCH",
@@ -106,7 +106,7 @@ export class OneDriveClient {
 		driveId: string,
 		itemId: string,
 		newParentId: string,
-		newName: string,
+		newName: string
 	) {
 		return this.fetchJson(`drives/${driveId}/items/${itemId}/copy`, {
 			method: "POST",
@@ -124,7 +124,7 @@ export class OneDriveClient {
 		driveId: string,
 		filename: string,
 		body: Uint8Array,
-		mimeType?: string,
+		mimeType?: string
 	): Promise<Children.DriveItem> {
 		const headers = new Headers();
 		if (mimeType) {
@@ -137,14 +137,14 @@ export class OneDriveClient {
 				method: "PUT",
 				body,
 				headers,
-			},
+			}
 		);
 	}
 
 	public async *watch(
 		driveId: string,
 		interval: number,
-		ct: vscode.CancellationToken,
+		ct: vscode.CancellationToken
 	) {
 		const loadDelta = async (routeOrUrl: string) => {
 			const res = await this.fetch(routeOrUrl);
@@ -153,7 +153,7 @@ export class OneDriveClient {
 			const response: DeltaResponse = await res.json();
 			while (response["@odata.nextLink"]) {
 				const next = await this.fetchJson<DeltaResponse>(
-					response["@odata.nextLink"],
+					response["@odata.nextLink"]
 				);
 				response.value = response.value.concat(next.value);
 				response["@odata.deltaLink"] = next["@odata.deltaLink"];
@@ -209,7 +209,7 @@ export class OneDriveClient {
 
 		const response = await fetch(
 			route.startsWith("https:") ? route : root + route,
-			params,
+			params
 		);
 		if (!response.ok) {
 			let body: string;
@@ -227,7 +227,7 @@ export class OneDriveClient {
 
 	private async fetchJson<T>(
 		route: string,
-		params?: RequestInit,
+		params?: RequestInit
 	): Promise<T> {
 		const response = await this.fetch(route, params);
 		return await response.json();
