@@ -21,7 +21,7 @@ export class OneDriveClient {
 	constructor(private readonly accessToken: string) {}
 
 	public getOwnDrives(): Promise<MyDrives.Response> {
-		return this.fetchJson(`me/drives`);
+		return this.fetchJson("me/drives");
 	}
 
 	public getRootChildren(driveId: string): Promise<Children.Response> {
@@ -269,16 +269,14 @@ class DeltaResultInteractor {
 		}
 
 		if (item.parentReference.path) {
-			return (
-				item.parentReference.path.slice(driveRootPrefix.length + 1) +
-				"/" +
-				item.name
-			);
+			return `${item.parentReference.path.slice(
+				driveRootPrefix.length + 1,
+			)}/${item.name}`;
 		}
 
 		const parentItem = this.results.get(item.parentReference.id);
 		return parentItem
-			? this.getPathForItem(parentItem) + "/" + item.name
+			? `${this.getPathForItem(parentItem)}/${item.name}`
 			: item.name;
 	}
 

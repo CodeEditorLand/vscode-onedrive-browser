@@ -5,7 +5,7 @@ const CLIENT_ID = "58b63433-308f-49dd-833c-76175555e44a";
 
 const SCOPES = [
 	`VSCODE_CLIENT_ID:${CLIENT_ID}`,
-	`VSCODE_TENANT:consumers`,
+	"VSCODE_TENANT:consumers",
 	"profile",
 	"openid",
 	"offline_access",
