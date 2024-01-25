@@ -82,5 +82,13 @@ jobs:
             - run: pnpm install
               working-directory: .
 
+            - run: pnpm run prepublishOnly
+              working-directory: .
+
+            - uses: actions/upload-artifact@v4.1.0
+              with:
+                  name: .-Node-${{ matrix.node-version }}-Target
+                  path: ./Target
+
             - run: pnpm run test
               working-directory: .

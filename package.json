@@ -1,47 +1,68 @@
 {
-	"name": "onedrive-browser",
-	"displayName": "OneDrive Browser",
-	"version": "0.0.1",
-	"description": "Browse and edit files from OneDrive in VS Code",
-	"publisher": "ms-vscode",
-	"browser": "./dist/web/extension.js",
-	"scripts": {
-		"compile-web": "webpack",
-		"package-web": "webpack --mode production --devtool hidden-source-map",
-		"run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
-		"pretest": "yarn run compile-web",
-		"test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
-		"vscode:prepublish": "yarn run package-web",
-		"watch-web": "webpack --watch"
-	},
-	"contributes": {
-		"commands": [
-			{
-				"command": "onedrive-browser.openOneDrive",
-				"title": "Open OneDrive Folder"
-			}
-		],
-		"webOpener": {
-			"scheme": "onedrive",
-			"import": "webOpener.js"
-		}
-	},
-	"activationEvents": [
-		"onCommand:onedrive-browser.openOneDrive",
-		"onFileSystem:onedrive"
-	],
-	"devDependencies": {
-		"@types/mocha": "10.0.6",
-		"@types/vscode": "1.85.0",
-		"@types/webpack-env": "1.18.4",
-		"@vscode/test-web": "0.0.50",
-		"assert": "2.1.0",
-		"mocha": "10.2.0",
-		"process": "0.11.10",
-		"ts-loader": "9.5.1",
-		"typescript": "5.3.3",
-		"webpack": "5.90.0",
-		"webpack-cli": "5.1.4"
-	},
-	"preview": true
+  "activationEvents": [
+    "onCommand:onedrive-browser.openOneDrive",
+    "onFileSystem:onedrive"
+  ],
+  "author": {
+    "email": "nikola@nikolahristov.tech",
+    "name": "Nikola Hristov",
+    "url": "https://nikolahristov.tech"
+  },
+  "browser": "./dist/web/extension.js",
+  "bugs": {
+    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "onedrive-browser.openOneDrive",
+        "title": "Open OneDrive Folder"
+      }
+    ],
+    "webOpener": {
+      "import": "webOpener.js",
+      "scheme": "onedrive"
+    }
+  },
+  "description": "Browse and edit files from OneDrive in VS Code",
+  "devDependencies": {
+    "@types/mocha": "10.0.6",
+    "@types/vscode": "1.85.0",
+    "@types/webpack-env": "1.18.4",
+    "@vscode/test-web": "0.0.50",
+    "assert": "2.1.0",
+    "mocha": "10.2.0",
+    "process": "0.11.10",
+    "ts-loader": "9.5.1",
+    "typescript": "5.3.3",
+    "typescript-esbuild": "0.3.3",
+    "webpack": "5.90.0",
+    "webpack-cli": "5.1.4"
+  },
+  "displayName": "OneDrive Browser",
+  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
+  "license": "SEE LICENSE IN LICENSE",
+  "name": "onedrive-browser",
+  "preview": true,
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "publisher": "playform",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
+  },
+  "scripts": {
+    "compile-web": "webpack",
+    "package-web": "webpack --mode production --devtool hidden-source-map",
+    "prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+    "pretest": "yarn run compile-web",
+    "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
+    "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
+    "vscode:prepublish": "yarn run package-web",
+    "watch-web": "webpack --watch"
+  },
+  "type": "module",
+  "version": "0.0.1"
 }
