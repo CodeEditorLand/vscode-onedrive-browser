@@ -1,33 +1,9 @@
 {
-	"name": "onedrive-browser",
-	"displayName": "OneDrive Browser",
-	"version": "0.0.1",
-	"private": false,
-	"description": "Browse and edit files from OneDrive in VS Code",
-	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
-	"bugs": {
-		"url": "https://github.com/CodeEditorLand/Foundation/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "Playform",
-		"email": "Hello@Playform.Cloud",
-		"url": "https://playform.cloud"
-	},
-	"type": "module",
+	"activationEvents": [
+		"onCommand:onedrive-browser.openOneDrive",
+		"onFileSystem:onedrive"
+	],
 	"browser": "./dist/web/extension.js",
-	"scripts": {
-		"compile-web": "webpack",
-		"package-web": "webpack --mode production --devtool hidden-source-map",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-		"run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
-		"vscode:prepublish": "yarn run package-web",
-		"watch-web": "webpack --watch"
-	},
 	"contributes": {
 		"commands": [
 			{
@@ -40,10 +16,7 @@
 			"scheme": "onedrive"
 		}
 	},
-	"activationEvents": [
-		"onCommand:onedrive-browser.openOneDrive",
-		"onFileSystem:onedrive"
-	],
+	"description": "Browse and edit files from OneDrive in VS Code",
 	"devDependencies": {
 		"@types/mocha": "^9.0.0",
 		"@types/vscode": "^1.63.0",
@@ -58,8 +31,16 @@
 		"webpack": "^5.76.0",
 		"webpack-cli": "^4.8.0"
 	},
-	"publishConfig": {
-		"access": "public"
+	"displayName": "OneDrive Browser",
+	"name": "onedrive-browser",
+	"preview": true,
+	"scripts": {
+		"compile-web": "webpack",
+		"package-web": "webpack --mode production --devtool hidden-source-map",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
+		"vscode:prepublish": "yarn run package-web",
+		"watch-web": "webpack --watch"
 	},
-	"preview": true
+	"type": "module"
 }
