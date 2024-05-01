@@ -1,16 +1,35 @@
 {
-	"activationEvents": [
-		"onCommand:onedrive-browser.openOneDrive",
-		"onFileSystem:onedrive"
+	"name": "onedrive-browser",
+	"displayName": "OneDrive Browser",
+	"version": "0.0.1",
+	"private": false,
+	"description": "Browse and edit files from OneDrive in VS Code",
+	"keywords": [
+		"land"
 	],
-	"author": {
-		"email": "Land@PlayForm.Cloud",
-		"name": "🌆 — Land —",
-		"url": "HTTPS://Land.PlayForm.Cloud"
-	},
-	"browser": "./dist/web/extension.js",
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandOnedriveBrowser#readme",
 	"bugs": {
 		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandOnedriveBrowser/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+HTTPS://github.com/CodeEditorLand/LandOnedriveBrowser.git"
+	},
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "🌆 — Land —",
+		"email": "Land@PlayForm.Cloud",
+		"url": "HTTPS://Land.PlayForm.Cloud"
+	},
+	"type": "module",
+	"browser": "./dist/web/extension.js",
+	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
+		"compile-web": "webpack",
+		"package-web": "webpack --mode production --devtool hidden-source-map",
+		"prepublishOnly": "Build 'Source/**/*.ts'",
+		"run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
+		"watch-web": "webpack --watch"
 	},
 	"contributes": {
 		"commands": [
@@ -24,7 +43,10 @@
 			"scheme": "onedrive"
 		}
 	},
-	"description": "Browse and edit files from OneDrive in VS Code",
+	"activationEvents": [
+		"onCommand:onedrive-browser.openOneDrive",
+		"onFileSystem:onedrive"
+	],
 	"devDependencies": {
 		"@playform/build": "0.0.7",
 		"@playform/document": "0.0.6",
@@ -32,30 +54,8 @@
 		"process": "0.11.10",
 		"ts-loader": "9.5.1"
 	},
-	"displayName": "OneDrive Browser",
-	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandOnedriveBrowser#readme",
-	"keywords": [
-		"land"
-	],
-	"license": "SEE LICENSE IN LICENSE",
-	"name": "onedrive-browser",
-	"preview": true,
-	"private": false,
 	"publishConfig": {
 		"access": "public"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/LandOnedriveBrowser.git"
-	},
-	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"compile-web": "webpack",
-		"package-web": "webpack --mode production --devtool hidden-source-map",
-		"prepublishOnly": "Build 'Source/**/*.ts'",
-		"run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
-		"watch-web": "webpack --watch"
-	},
-	"type": "module",
-	"version": "0.0.1"
+	"preview": true
 }
