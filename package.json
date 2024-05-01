@@ -50,9 +50,9 @@
 	"devDependencies": {
 		"@playform/build": "0.0.7",
 		"@playform/document": "0.0.6",
-		"assert": "^2.0.0",
-		"process": "^0.11.10",
-		"ts-loader": "^9.2.5"
+		"assert": "2.1.0",
+		"process": "0.11.10",
+		"ts-loader": "9.5.1"
 	},
 	"publishConfig": {
 		"access": "public"
