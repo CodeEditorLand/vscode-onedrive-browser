@@ -9,10 +9,10 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 
   constructor(private readonly client: ClientProvider) {}
 
-  /** @inheritdoc */
+  
   public readonly onDidChangeFile = this.changeEmitter.event;
 
-  /** @inheritdoc */
+  
   watch(uri: vscode.Uri, options: { recursive: boolean; excludes: string[] }): vscode.Disposable {
     // we just watch the root, once, here. VS Code and extensions can request
     // watchers for child directories, but usually someone will always request
@@ -54,7 +54,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
     };
   }
 
-  /** @inheritdoc */
+  
   public async stat(uri: vscode.Uri): Promise<vscode.FileStat> {
     const { driveId, path } = this.parseUri(uri);
     const client = await this.client.demandForFs();
@@ -75,7 +75,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
     }
   }
 
-  /** @inheritdoc */
+  
   public async readDirectory(uri: vscode.Uri): Promise<[string, vscode.FileType][]> {
     const { driveId } = this.parseUri(uri);
     const client = await this.client.demandForFs();
@@ -95,7 +95,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
     }
   }
 
-  /** @inheritdoc */
+  
   public async createDirectory(uri: vscode.Uri): Promise<void> {
     const { driveId } = this.parseUri(uri);
     const parentId = await this.getItemIdForPath(parentUri(uri));
@@ -103,7 +103,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
     await client.createFolder(driveId, parentId, basename(uri));
   }
 
-  /** @inheritdoc */
+  
   public async readFile(uri: vscode.Uri): Promise<Uint8Array> {
     try {
       const { driveId, path } = this.parseUri(uri);
@@ -118,21 +118,21 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
     }
   }
 
-  /** @inheritdoc */
+  
   public async writeFile(uri: vscode.Uri, content: Uint8Array): Promise<void> {
     const { driveId, path } = this.parseUri(uri);
     const client = await this.client.demandForFs();
     await client.saveFile(driveId, path, content);
   }
 
-  /** @inheritdoc */
+  
   public async delete(uri: vscode.Uri, options: { recursive: boolean }): Promise<void> {
     const { driveId, path } = this.parseUri(uri);
     const client = await this.client.demandForFs();
     client.delete(driveId, path);
   }
 
-  /** @inheritdoc */
+  
   public async rename(oldUri: vscode.Uri, newUri: vscode.Uri): Promise<void> {
     const { driveId } = this.parseUri(oldUri);
     const [itemId, newParentId] = await Promise.all([
@@ -144,7 +144,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
     await client.move(driveId, itemId, newParentId, basename(newUri));
   }
 
-  /** @inheritdoc */
+  
   public async copy(source: vscode.Uri, destination: vscode.Uri) {
     const { driveId } = this.parseUri(source);
     const [itemId, newParentId] = await Promise.all([
