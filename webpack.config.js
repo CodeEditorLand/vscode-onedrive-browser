@@ -7,12 +7,12 @@
 'use strict';
 
 //@ts-check
-/** @typedef {import('webpack').Configuration} WebpackConfig **/
+
 
 const path = require('path');
 const webpack = require('webpack');
 
-/** @type WebpackConfig */
+
 const webExtensionConfig = {
   mode: 'none', // this leaves the source code as close as possible to the original (when packaging we set this to 'production')
   target: 'webworker', // extensions run in a webworker context
