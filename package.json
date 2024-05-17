@@ -1,27 +1,7 @@
 {
 	"name": "onedrive-browser",
 	"displayName": "OneDrive Browser",
-	"version": "0.0.1",
-	"private": false,
 	"description": "Browse and edit files from OneDrive in VS Code",
-	"keywords": [
-		"land"
-	],
-	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandOnedriveBrowser#readme",
-	"bugs": {
-		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandOnedriveBrowser/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/LandOnedriveBrowser.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "🛬 Land —",
-		"email": "Land@PlayForm.Cloud",
-		"url": "HTTPS://Land.PlayForm.Cloud"
-	},
-	"type": "module",
 	"browser": "./dist/web/extension.js",
 	"scripts": {
 		"Document": "Document 'Source/**/*.ts'",
@@ -49,13 +29,9 @@
 	],
 	"devDependencies": {
 		"@playform/build": "0.0.7",
-		"@playform/document": "0.0.6",
 		"assert": "2.1.0",
 		"process": "0.11.10",
 		"ts-loader": "9.5.1"
-	},
-	"publishConfig": {
-		"access": "public"
 	},
 	"preview": true
 }
