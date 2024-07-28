@@ -1,14 +1,9 @@
 {
-	"name": "onedrive-browser",
-	"displayName": "OneDrive Browser",
-	"description": "Browse and edit files from OneDrive in VS Code",
+	"activationEvents": [
+		"onCommand:onedrive-browser.openOneDrive",
+		"onFileSystem:onedrive"
+	],
 	"browser": "./dist/web/extension.js",
-	"scripts": {
-		"compile-web": "webpack",
-		"package-web": "webpack --mode production --devtool hidden-source-map",
-		"run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
-		"watch-web": "webpack --watch"
-	},
 	"contributes": {
 		"commands": [
 			{
@@ -21,14 +16,19 @@
 			"scheme": "onedrive"
 		}
 	},
-	"activationEvents": [
-		"onCommand:onedrive-browser.openOneDrive",
-		"onFileSystem:onedrive"
-	],
+	"description": "Browse and edit files from OneDrive in VS Code",
 	"devDependencies": {
 		"assert": "2.0.0",
 		"process": "0.11.10",
 		"ts-loader": "9.2.5"
 	},
-	"preview": true
+	"displayName": "OneDrive Browser",
+	"name": "onedrive-browser",
+	"preview": true,
+	"scripts": {
+		"compile-web": "webpack",
+		"package-web": "webpack --mode production --devtool hidden-source-map",
+		"run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. .",
+		"watch-web": "webpack --watch"
+	}
 }
