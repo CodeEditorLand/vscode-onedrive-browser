@@ -6,11 +6,13 @@ import { Children, MyDrives, OneDriveClient } from "./onedrive-types";
 
 export async function openOneDrive(clientProvider: ClientProvider) {
 	const client = await clientProvider.request();
+
 	if (!client) {
 		return;
 	}
 
 	const drive = await pickDriveId(client);
+
 	if (!drive) {
 		return;
 	}
@@ -26,6 +28,7 @@ export async function openOneDrive(clientProvider: ClientProvider) {
 	}
 
 	const context: Children.DriveItem[] = [];
+
 	while (true) {
 		const pick = await pickFolder(
 			client,
@@ -44,6 +47,7 @@ export async function openOneDrive(clientProvider: ClientProvider) {
 
 		if (pick.item === "parent") {
 			context.pop();
+
 			continue;
 		}
 
@@ -73,6 +77,7 @@ const dateFormat = new Intl.DateTimeFormat(undefined, {
 	dateStyle: "medium",
 	timeStyle: "short",
 });
+
 const numberFormat = new Intl.NumberFormat();
 
 type FolderPickItem = vscode.QuickPickItem & {
@@ -99,7 +104,9 @@ function pickFolder(
 	children.then((children) => {
 		const items: FolderPickItem[] = children.value.map((item) => {
 			const mtime = new Date(item.lastModifiedDateTime);
+
 			const desc = `${item.lastModifiedBy.user.displayName} at ${dateFormat.format(mtime)}`;
+
 			return item.folder
 				? {
 						item,

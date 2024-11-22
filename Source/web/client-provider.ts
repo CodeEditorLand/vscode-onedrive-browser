@@ -18,6 +18,7 @@ export class ClientProvider {
 
 	public async demandForFs() {
 		const session = await this.getSession();
+
 		return new OneDriveClient(session.accessToken);
 	}
 

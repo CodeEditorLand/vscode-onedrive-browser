@@ -28,6 +28,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 			this.watcher.count++;
 		} else {
 			const { driveId } = this.parseUri(uri);
+
 			const cts = new vscode.CancellationTokenSource();
 
 			this.client.demandForFs().then(async (client) => {
@@ -53,6 +54,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 		}
 
 		let disposed = false;
+
 		return {
 			dispose: () => {
 				if (!disposed && this.watcher && --this.watcher.count === 0) {
@@ -67,9 +69,12 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 	/** @inheritdoc */
 	public async stat(uri: vscode.Uri): Promise<vscode.FileStat> {
 		const { driveId, path } = this.parseUri(uri);
+
 		const client = await this.client.demandForFs();
+
 		try {
 			const metadata = await client.getFileMetadata(driveId, path);
+
 			return {
 				ctime: new Date(metadata.createdDateTime).getTime(),
 				mtime: new Date(metadata.lastModifiedDateTime).getTime(),
@@ -92,10 +97,14 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 		uri: vscode.Uri,
 	): Promise<[string, vscode.FileType][]> {
 		const { driveId } = this.parseUri(uri);
+
 		const client = await this.client.demandForFs();
+
 		const parentId = await this.getItemIdForPath(uri);
+
 		try {
 			const children = await client.getNestedChildren(driveId, parentId);
+
 			return children.value.map(({ name, folder }) => [
 				name,
 				folder ? vscode.FileType.Directory : vscode.FileType.File,
@@ -112,7 +121,9 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 	/** @inheritdoc */
 	public async createDirectory(uri: vscode.Uri): Promise<void> {
 		const { driveId } = this.parseUri(uri);
+
 		const parentId = await this.getItemIdForPath(parentUri(uri));
+
 		const client = await this.client.demandForFs();
 		await client.createFolder(driveId, parentId, basename(uri));
 	}
@@ -121,7 +132,9 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 	public async readFile(uri: vscode.Uri): Promise<Uint8Array> {
 		try {
 			const { driveId, path } = this.parseUri(uri);
+
 			const client = await this.client.demandForFs();
+
 			return new Uint8Array(await client.downloadFile(driveId, path));
 		} catch (e) {
 			if (ResponseError.is(e, 404)) {
@@ -138,6 +151,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 		content: Uint8Array,
 	): Promise<void> {
 		const { driveId, path } = this.parseUri(uri);
+
 		const client = await this.client.demandForFs();
 		await client.saveFile(driveId, path, content);
 	}
@@ -148,6 +162,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 		options: { recursive: boolean },
 	): Promise<void> {
 		const { driveId, path } = this.parseUri(uri);
+
 		const client = await this.client.demandForFs();
 		client.delete(driveId, path);
 	}
@@ -155,6 +170,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 	/** @inheritdoc */
 	public async rename(oldUri: vscode.Uri, newUri: vscode.Uri): Promise<void> {
 		const { driveId } = this.parseUri(oldUri);
+
 		const [itemId, newParentId] = await Promise.all([
 			this.getItemIdForPath(oldUri),
 			this.getItemIdForPath(parentUri(newUri)),
@@ -167,6 +183,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 	/** @inheritdoc */
 	public async copy(source: vscode.Uri, destination: vscode.Uri) {
 		const { driveId } = this.parseUri(source);
+
 		const [itemId, newParentId] = await Promise.all([
 			this.getItemIdForPath(source),
 			this.getItemIdForPath(parentUri(destination)),
@@ -179,8 +196,11 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 	private async getItemIdForPath(uri: vscode.Uri) {
 		try {
 			const { driveId, path } = this.parseUri(uri);
+
 			const client = await this.client.demandForFs();
+
 			const { id } = await client.getFileMetadata(driveId, path);
+
 			return id;
 		} catch (e) {
 			if (ResponseError.is(e, 404)) {
@@ -197,16 +217,19 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 		}
 
 		const driveId = uri.authority;
+
 		return { driveId, path: uri.path.replace(/^\/+/, "") };
 	}
 }
 
 const parentUri = (uri: vscode.Uri) => {
 	const index = uri.path.lastIndexOf("/");
+
 	return uri.with({ path: uri.path.slice(0, index) });
 };
 
 const basename = (uri: vscode.Uri) => {
 	const index = uri.path.lastIndexOf("/");
+
 	return uri.path.slice(index + 1);
 };

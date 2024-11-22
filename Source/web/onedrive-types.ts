@@ -127,6 +127,7 @@ export class OneDriveClient {
 		mimeType?: string,
 	): Promise<Children.DriveItem> {
 		const headers = new Headers();
+
 		if (mimeType) {
 			headers.set("content-type", mimeType);
 		}
@@ -148,9 +149,11 @@ export class OneDriveClient {
 	) {
 		const loadDelta = async (routeOrUrl: string) => {
 			const res = await this.fetch(routeOrUrl);
+
 			const currentDate = res.headers.get("Date");
 
 			const response: DeltaResponse = await res.json();
+
 			while (response["@odata.nextLink"]) {
 				const next = await this.fetchJson<DeltaResponse>(
 					response["@odata.nextLink"],
@@ -171,6 +174,7 @@ export class OneDriveClient {
 					l.dispose();
 					resolve();
 				}, interval);
+
 				const l = ct.onCancellationRequested(() => {
 					clearTimeout(timeout);
 					resolve();
@@ -182,6 +186,7 @@ export class OneDriveClient {
 			}
 
 			const next = await loadDelta(results.next);
+
 			if (ct.isCancellationRequested) {
 				return;
 			}
@@ -211,8 +216,10 @@ export class OneDriveClient {
 			route.startsWith("https:") ? route : root + route,
 			params,
 		);
+
 		if (!response.ok) {
 			let body: string;
+
 			try {
 				body = await response.text();
 			} catch {
@@ -230,6 +237,7 @@ export class OneDriveClient {
 		params?: RequestInit,
 	): Promise<T> {
 		const response = await this.fetch(route, params);
+
 		return await response.json();
 	}
 }
@@ -246,6 +254,7 @@ class DeltaResultInteractor {
 			? new Date(dateHeader).getTime()
 			: Date.now();
 		this.next = res["@odata.deltaLink"];
+
 		for (const item of res.value) {
 			this.results.set(item.id, item);
 		}
@@ -277,6 +286,7 @@ class DeltaResultInteractor {
 		}
 
 		const parentItem = this.results.get(item.parentReference.id);
+
 		return parentItem
 			? this.getPathForItem(parentItem) + "/" + item.name
 			: item.name;
