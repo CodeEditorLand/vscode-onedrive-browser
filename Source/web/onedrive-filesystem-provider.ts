@@ -5,9 +5,11 @@ import { OneDriveClient, ResponseError } from "./onedrive-types";
 
 export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 	public static readonly scheme = "onedrive";
+
 	private readonly changeEmitter = new vscode.EventEmitter<
 		vscode.FileChangeEvent[]
 	>();
+
 	private watcher?: { count: number; cts: vscode.CancellationTokenSource };
 
 	constructor(private readonly client: ClientProvider) {}
@@ -59,8 +61,10 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 			dispose: () => {
 				if (!disposed && this.watcher && --this.watcher.count === 0) {
 					this.watcher.cts.cancel();
+
 					this.watcher = undefined;
 				}
+
 				disposed = true;
 			},
 		};
@@ -125,6 +129,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 		const parentId = await this.getItemIdForPath(parentUri(uri));
 
 		const client = await this.client.demandForFs();
+
 		await client.createFolder(driveId, parentId, basename(uri));
 	}
 
@@ -153,6 +158,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 		const { driveId, path } = this.parseUri(uri);
 
 		const client = await this.client.demandForFs();
+
 		await client.saveFile(driveId, path, content);
 	}
 
@@ -164,6 +170,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 		const { driveId, path } = this.parseUri(uri);
 
 		const client = await this.client.demandForFs();
+
 		client.delete(driveId, path);
 	}
 
@@ -177,6 +184,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 		]);
 
 		const client = await this.client.demandForFs();
+
 		await client.move(driveId, itemId, newParentId, basename(newUri));
 	}
 
@@ -190,6 +198,7 @@ export class OneDriveFileSystemProvider implements vscode.FileSystemProvider {
 		]);
 
 		const client = await this.client.demandForFs();
+
 		await client.copy(driveId, itemId, newParentId, basename(destination));
 	}
 

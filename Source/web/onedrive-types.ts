@@ -158,8 +158,11 @@ export class OneDriveClient {
 				const next = await this.fetchJson<DeltaResponse>(
 					response["@odata.nextLink"],
 				);
+
 				response.value = response.value.concat(next.value);
+
 				response["@odata.deltaLink"] = next["@odata.deltaLink"];
+
 				response["@odata.nextLink"] = next["@odata.nextLink"];
 			}
 
@@ -172,11 +175,13 @@ export class OneDriveClient {
 			await new Promise<void>((resolve) => {
 				const timeout = setTimeout(() => {
 					l.dispose();
+
 					resolve();
 				}, interval);
 
 				const l = ct.onCancellationRequested(() => {
 					clearTimeout(timeout);
+
 					resolve();
 				});
 			});
@@ -204,12 +209,14 @@ export class OneDriveClient {
 			});
 
 			yield changes;
+
 			results = next;
 		}
 	}
 
 	private async fetch(route: string, params: RequestInit = {}) {
 		params.headers = new Headers(params.headers);
+
 		params.headers.set("authorization", `Bearer ${this.accessToken}`);
 
 		const response = await fetch(
@@ -246,13 +253,16 @@ const driveRootPrefix = "/drive/root:";
 
 class DeltaResultInteractor {
 	private readonly results = new Map<string, Children.DriveItem>();
+
 	private readonly lastUpdated: number;
+
 	public readonly next: string;
 
 	constructor(res: DeltaResponse, dateHeader: string | null) {
 		this.lastUpdated = dateHeader
 			? new Date(dateHeader).getTime()
 			: Date.now();
+
 		this.next = res["@odata.deltaLink"];
 
 		for (const item of res.value) {
@@ -300,21 +310,31 @@ class DeltaResultInteractor {
 export namespace Common {
 	export interface Thumbnail {
 		height: number;
+
 		sourceItemId: string;
+
 		url: string;
+
 		width: number;
 	}
+
 	export interface Thumbnails {
 		id: string;
+
 		large?: Thumbnail;
+
 		medium?: Thumbnail;
+
 		small?: Thumbnail;
+
 		source?: Thumbnail;
 	}
 
 	export interface GraphIdentity {
 		displayName: string;
+
 		id: string;
+
 		thumbnails?: Thumbnails;
 	}
 }
@@ -322,6 +342,7 @@ export namespace Common {
 export namespace MyDrives {
 	export interface User {
 		displayName: string;
+
 		id: string;
 	}
 
@@ -335,21 +356,30 @@ export namespace MyDrives {
 
 	export interface Quota {
 		deleted: number;
+
 		remaining: number;
+
 		state: string;
+
 		total: number;
+
 		used: number;
+
 		storagePlanInformation: StoragePlanInformation;
 	}
 
 	export interface Drive {
 		driveType: "personal" | "business" | "documentLibrary";
+
 		id: string;
+
 		name?: string;
+
 		owner:
 			| { user: Common.GraphIdentity }
 			| { application: Common.GraphIdentity }
 			| { device: Common.GraphIdentity };
+
 		quota: Quota;
 	}
 
@@ -372,6 +402,7 @@ interface DeltaResponse {
 	"@odata.deltaLink": string;
 	"@odata.nextLink": string;
 	"@odata.context": string;
+
 	value: Children.DriveItem[];
 }
 
@@ -379,90 +410,134 @@ export namespace Children {
 	export interface Response {
 		"@odata.context": string;
 		"@odata.count": number;
+
 		value: DriveItem[];
 	}
 
 	export interface DriveItem {
 		createdDateTime: Date;
+
 		cTag: string;
+
 		eTag: string;
+
 		id: string;
+
 		lastModifiedDateTime: Date;
+
 		name: string;
+
 		size: number;
+
 		webUrl: string;
+
 		reactions: Reactions;
+
 		createdBy: EdBy;
+
 		lastModifiedBy: EdBy;
+
 		parentReference: ParentReference;
+
 		fileSystemInfo: FileSystemInfo;
+
 		root?: {};
+
 		folder?: Folder;
+
 		specialFolder?: SpecialFolder;
+
 		deleted?: { state: string };
 		"@microsoft.graph.downloadUrl"?: string;
+
 		file?: File;
+
 		image?: Image;
+
 		photo?: Photo;
 	}
 
 	export interface EdBy {
 		user: Common.GraphIdentity;
+
 		application?: Common.GraphIdentity;
+
 		device?: Common.GraphIdentity;
+
 		oneDriveSync?: Common.GraphIdentity;
 	}
 
 	export interface File {
 		mimeType: string;
+
 		hashes: Hashes;
 	}
 
 	export interface Hashes {
 		quickXorHash?: string;
+
 		sha1Hash: string;
+
 		sha256Hash?: string;
+
 		crc32Hash?: string;
 	}
 
 	export interface FileSystemInfo {
 		createdDateTime: Date;
+
 		lastModifiedDateTime: Date;
 	}
 
 	export interface Folder {
 		childCount: number;
+
 		view: View;
 	}
 
 	export interface View {
 		viewType: string;
+
 		sortBy: string;
+
 		sortOrder: string;
 	}
 
 	export interface Image {
 		height: number;
+
 		width: number;
 	}
 
 	export interface ParentReference {
 		driveId: string;
+
 		driveType: string;
+
 		id: string;
+
 		path?: string;
+
 		name?: string;
 	}
 
 	export interface Photo {
 		cameraMake?: string;
+
 		cameraModel?: string;
+
 		exposureDenominator?: number;
+
 		exposureNumerator?: number;
+
 		focalLength?: number;
+
 		fNumber?: number;
+
 		iso?: number;
+
 		orientation?: number;
+
 		takenDateTime?: Date;
 	}
 

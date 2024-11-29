@@ -82,6 +82,7 @@ const numberFormat = new Intl.NumberFormat();
 
 type FolderPickItem = vscode.QuickPickItem & {
 	item: Children.DriveItem | "parent";
+
 	sortText: string;
 };
 
@@ -93,8 +94,11 @@ function pickFolder(
 	{ item: Children.DriveItem | "parent"; action: ItemAction } | undefined
 > {
 	const qp = vscode.window.createQuickPick<FolderPickItem>();
+
 	qp.ignoreFocusOut = true;
+
 	qp.busy = true;
+
 	qp.title = "Pick file or folder to open";
 
 	const children = context
@@ -139,6 +143,7 @@ function pickFolder(
 		items.sort((a, b) => a.sortText.localeCompare(b.sortText));
 
 		qp.items = items;
+
 		qp.busy = false;
 	});
 
@@ -148,14 +153,17 @@ function pickFolder(
 		qp.onDidTriggerItemButton((e) => {
 			resolve({ item: e.item.item, action: ItemAction.open });
 		});
+
 		qp.onDidAccept(() => {
 			const selected = qp.selectedItems[0];
+
 			resolve(
 				selected
 					? { item: selected.item, action: ItemAction.browse }
 					: undefined,
 			);
 		});
+
 		qp.onDidHide(() => {
 			resolve(undefined);
 		});
@@ -168,11 +176,16 @@ function pickDriveId(
 	const qp = vscode.window.createQuickPick<
 		vscode.QuickPickItem & { driveId: string }
 	>();
+
 	qp.ignoreFocusOut = true;
+
 	qp.busy = true;
+
 	qp.title = "Pick OneDrive to open";
+
 	client.getOwnDrives().then((drives) => {
 		qp.busy = false;
+
 		qp.items = drives.value.map((drive) => ({
 			driveId: drive.id,
 			label:
@@ -195,12 +208,15 @@ function pickDriveId(
 		qp.onDidTriggerItemButton((e) => {
 			resolve({ driveId: e.item.driveId, action: ItemAction.open });
 		});
+
 		qp.onDidAccept(() => {
 			const driveId = qp.selectedItems[0]?.driveId;
+
 			resolve(
 				driveId ? { driveId, action: ItemAction.browse } : undefined,
 			);
 		});
+
 		qp.onDidHide(() => {
 			resolve(undefined);
 		});
