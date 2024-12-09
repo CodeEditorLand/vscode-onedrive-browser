@@ -16,6 +16,7 @@
 			"scheme": "onedrive"
 		}
 	},
+	"dependencies": {},
 	"description": "Browse and edit files from OneDrive in VS Code",
 	"devDependencies": {
 		"assert": "2.1.0",
